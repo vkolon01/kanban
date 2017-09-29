@@ -7,6 +7,7 @@ export let cardsList = [
         id: 1,
         title: 'Read the book',
         description: 'I should read the **whole** book',
+        color: '#bd8d31',
         status: 'in-progress',
         tasks: [
             {
@@ -17,9 +18,30 @@ export let cardsList = [
         ]
     },
     {
+        id: 3,
+        title: 'Experiment',
+        description: 'Bad boys,',
+        color: 'red',
+        status: 'in-progress',
+        tasks: [
+            {
+                id:1,
+                name: 'bad boys,',
+                done:true
+            },
+            {
+                id:12,
+                name: 'whacha gonna do?',
+                done:true
+            }
+        ]
+    },
+    {
         id: 2,
         title: 'Write some code',
-        description: 'Code along with the samples in the book',
+        description: 'Code along with the samples in the book. The complete source can be found' +
+        'at [github](https://github.com/pro-react)',
+        color: '#3a7e28',
         status: 'todo',
         tasks: [
             {
