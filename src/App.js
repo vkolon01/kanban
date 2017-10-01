@@ -5,7 +5,7 @@ import './App.css';
 export let cardsList = [
     {
         id: 1,
-        title: 'Read the book',
+        title: 'Read the bookRead the bookRead the bookRead the bookRead the bookRead the bookRead the bookRead the bookRead the bookRead the bookRead the bookRead the bookRead the bookRead the bookRead the bookRead the bookRead the book',
         description: 'I should read the **whole** book',
         color: '#bd8d31',
         status: 'in-progress',
