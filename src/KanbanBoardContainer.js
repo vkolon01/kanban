@@ -29,7 +29,38 @@ class KanbanBoardContainer extends Component {
     }
 
     addTask(cardId, taskName){
-        console.log('task attempts to add')
+        let cardIndex = this.state.cards.findIndex((card) => card.id === cardId);
+
+        let newTask = {id:Date.now(),name: taskName,done:false};
+
+        let nextState = update(this.state.cards,{
+            [cardIndex]: {
+                tasks: {$push: [newTask]}
+            }
+        });
+        let prevState = this.state;
+        this.setState({cards:nextState});
+
+        fetch(`${API_URL}/cards/${cardId}/tasks`,{
+            method: 'post',
+            headers: API_HEADERS,
+            body: JSON.stringify(newTask)
+        })
+            .then((response) => {
+                if(response.ok){
+                    return response.json();
+                }else{
+                    throw new Error('Response was not OK');
+                }
+            })
+            .then((responseData) => {
+                newTask.id = responseData.id;
+                this.setState({cards:nextState})
+            })
+            .catch((error) => {
+                this.setState(prevState);
+            })
+
     }
     deleteTask(cardId, taskId, taskIndex){
         let cardIndex = this.state.cards.findIndex((card) => card.id === cardId);
@@ -39,6 +70,7 @@ class KanbanBoardContainer extends Component {
                 tasks: {$splice: [[taskIndex,1]]}
             }
         });
+        let prevState = this.state;
 
         this.setState({cards:nextState});
 
@@ -46,9 +78,47 @@ class KanbanBoardContainer extends Component {
             method: 'delete',
             headers: API_HEADERS
         })
+            .then((response) => {
+                if(!response.ok){
+                    throw new Error('Response was not OK');
+                }
+            })
+            .catch((Error) => {
+                console.log('Fetch error ', Error);
+                this.setState(prevState);
+            })
     }
     toggleTask(cardId, taskId, taskIndex){
-        console.log('toggled');
+        let cardIndex = this.state.cards.findIndex((card) => card.id === cardId);
+        let newDoneValue;
+        let nextState = update(this.state.cards,{
+            [cardIndex]:{
+                tasks:{
+                    [taskIndex]:{
+                        done: {$apply:(done) => {
+                            newDoneValue = !done;
+                            return newDoneValue;
+                        }}
+                    }
+                }
+            }
+        });
+        let prevState = this.state;
+        this.setState({cards:nextState});
+        fetch(`${API_URL}/cards/${cardId}/tasks/${taskId}`,{
+            method: 'put',
+            headers:API_HEADERS,
+            body: JSON.stringify({done:newDoneValue})
+        })
+            .then((response) => {
+                if(!response.ok){
+                    throw new Error('Response was not OK');
+                }
+            })
+            .catch((Error) => {
+                console.log('Response was not OK');
+                this.setState(prevState);
+            });
     }
 
     render(){
