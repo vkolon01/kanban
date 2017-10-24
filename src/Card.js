@@ -9,8 +9,13 @@ import constants from './constants';
 const cardDragSpec = {
     beginDrag(props){
         return{
-            id: props.id
+            id: props.id,
+            status: props.status
         }
+    },
+    endDrag(props){
+      console.log(props.status)
+      props.cardCallbacks.persistCardDrag(props.id,props.status);
     }
 };
 const cardDropSpec = {
