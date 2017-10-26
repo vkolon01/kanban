@@ -7,11 +7,11 @@ class NewCard extends Component{
   componentWillMount(){
     this.setState({
       id: Date.now(),
-      title:'';
-      description:'';
-      status:'todo';
-      color:'#c9c9c9';
-      tasks:[];
+      title:'',
+      description:'',
+      status:'todo',
+      color:'#c9c9c9',
+      tasks:[]
     });
   }
   handleChange(field,value){
@@ -21,20 +21,20 @@ class NewCard extends Component{
   handleSubmit(e){
     e.preventDefault();
     this.props.cardCallbacks.addCard(this.state);
-    this.props.history.pushState(null,'/');
+    this.props.history.push('/',null);
   }
 
   handleClose(e){
-    this.props.history.pushState(null,'/');
+    this.props.history.push(null,'/');
   }
 
   render(){
     return(
       <CardForm draftCard={this.state}
-      buttonLabel="Create Card"
-      handleClose={this.handleClose.bind(this)}
-      handleSubmit={this.handleSubmit.bind(this)}
-      handleChange={this.handleChange.bind(this)} />
+        buttonLabel="Create Card"
+        handleClose={this.handleClose.bind(this)}
+        handleSubmit={this.handleSubmit.bind(this)}
+        handleChange={this.handleChange.bind(this)} />
     )
   }
 }

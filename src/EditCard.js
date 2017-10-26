@@ -33,7 +33,7 @@ class EditCard extends Component{
   }
 }
 
-NewCard.PropTypes = {
+EditCard.PropTypes = {
   cardCallbacks: PropTypes.object
 };
 

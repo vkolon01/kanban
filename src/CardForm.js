@@ -8,7 +8,7 @@ class CardForm extends Component{
 
   handleClose(e){
     e.preventDefault();
-    this.props.handleClose;
+    this.props.handleClose();
   }
 
   render(){
@@ -18,18 +18,18 @@ class CardForm extends Component{
           <form onSubmit={this.props.handleSubmit.bind(this)}>
             <input  type='text'
                     value={this.props.draftCard.title}
-                    onChange={this.props.handleChange.bind(this,'title')}
+                    onChange={this.handleChange.bind(this,'title')}
                     placeholder="Title"
                     required={true}
                     autofocus={true} />
             <textarea value={this.props.draftCard.description}
-                    onChange={this.props.handleChange.bind(this,'description')}
+                    onChange={this.handleChange.bind(this,'description')}
                     placeholder="Description"
                     required={true} />
             <label htmlFor="status">Status</label>
             <select id="status"
                     value={this.props.draftCard.status}
-                    onChange={this.props.handleChange.bind(this,'status')}>
+                    onChange={this.handleChange.bind(this,'status')}>
               <option value='todo'>To Do</option>
               <option value='in-progress'>In Progress</option>
               <option value='done'>Done</option>
@@ -38,7 +38,7 @@ class CardForm extends Component{
             <label htmlFor="color">Color</label>
             <input  id="color"
                     value={this.props.draftCard.color}
-                    onChange={this.props.draftCard.handleChange.bind(this,'color')}
+                    onChange={this.handleChange.bind(this,'color')}
                     type="color"
                     defaultValue="#ff0000" />
             <div className='actions'>

@@ -3,6 +3,9 @@ import PropTypes from 'prop-types';
 import {DragDropContext} from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 import List from './List';
+import {Route} from 'react-router-dom';
+import NewCard from './NewCard';
+import EditCard from './EditCard';
 
 class KanbanBoard extends Component{
     render(){
@@ -20,6 +23,10 @@ class KanbanBoard extends Component{
                       cardCallbacks = {this.props.cardCallbacks}
                       cards = {this.props.cards.filter((card) => card.status === "done")}
                 />
+                <Route path='/new' render={()=><NewCard
+                  cardCallbacks = {this.props.cardCallbacks}
+                  history = {this.props.history}/>} />
+                <Route path={'/edit/:card_id'} component={EditCard} />
             </div>
         )
     }
