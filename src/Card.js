@@ -46,7 +46,7 @@ let titlePropType = (props,propName,componentName) => {
 
 class Card extends Component {
     constructor(){
-        super();
+        super(...arguments);
         this.state = {
             showDetails: false
         };

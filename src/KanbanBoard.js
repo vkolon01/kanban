@@ -9,6 +9,19 @@ import EditCard from './EditCard';
 
 class KanbanBoard extends Component{
     render(){
+      let cardModal = this.props.children && React.cloneElement(this.props.children,{
+        cards: this.props.cards,
+        cardCallbacks: this.props.cardCallbacks
+      })
+      console.log(this.props.cards)
+      const myEditCard = ({match})=>(
+        <EditCard
+          data = {match}
+          cards = {this.props.cards}
+          cardCallbacks = {this.props.cardCallbacks}
+          history = {this.props.history}
+        />
+      )
         return(
             <div className="app">
                 <List id="todo" title="To Do" taskCallbacks={this.props.taskCallbacks}
@@ -23,10 +36,15 @@ class KanbanBoard extends Component{
                       cardCallbacks = {this.props.cardCallbacks}
                       cards = {this.props.cards.filter((card) => card.status === "done")}
                 />
-                <Route path='/new' render={()=><NewCard
-                  cardCallbacks = {this.props.cardCallbacks}
-                  history = {this.props.history}/>} />
-                <Route path={'/edit/:card_id'} component={EditCard} />
+                {cardModal}
+                <Route path='/new' render = {props=>(
+                  <NewCard
+                    cards= {this.props.cards}
+                    cardCallbacks= {this.props.cardCallbacks}
+                    history = {this.props.history}
+                  />
+                )}/>
+                <Route path={'/edit/:card_id'} render = {myEditCard}/>
             </div>
         )
     }

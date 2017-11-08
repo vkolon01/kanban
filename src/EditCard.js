@@ -5,8 +5,12 @@ import CardForm from './CardForm';
 class EditCard extends Component{
 
   componentWillMount(){
-    let card = this.props.cards.find((card) => card.id == this.props.params.card_id);
+    let card = this.props.cards.find((card) => card.id == this.props.data.params.card_id);
+    console.log('this one ' , this.props.cards);
     this.setState({...card});
+  }
+  componentDidMount(){
+    console.log('this one ' , this.props.cards);
   }
   handleChange(field,value){
     this.setState({[field]: value});
@@ -15,11 +19,11 @@ class EditCard extends Component{
   handleSubmit(e){
     e.preventDefault();
     this.props.cardCallbacks.updateCard(this.state);
-    this.props.history.pushState(null,'/');
+    this.props.history.push('/');
   }
 
   handleClose(e){
-    this.props.history.pushState(null,'/');
+    this.props.history.push('/');
   }
 
   render(){

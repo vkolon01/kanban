@@ -13,7 +13,7 @@ const API_HEADERS = {
 
 class KanbanBoardContainer extends Component {
     constructor(){
-        super();
+        super(...arguments);
         this.state = {
             cards : []
         };
@@ -189,14 +189,14 @@ class KanbanBoardContainer extends Component {
 
       //Set the component state to the mutated object
       this.setState({cards:nextState});
-
       //Call the API to add the card on the Server
       fetch(`${API_URL}/cards`,{
         method: 'post',
-        header: API_HEADERS,
+        headers: API_HEADERS,
         body: JSON.stringify(card)
       })
       .then((response)=>{
+        console.log(response)
         if(response.ok){
           return response.json();
         }else{
@@ -227,11 +227,11 @@ class KanbanBoardContainer extends Component {
       );
       //Set the component state to the mutated object
       this.setState({cards:nextState});
-
+      console.log(card);
       //Call the API to add the card on the Server
       fetch(`${API_URL}/cards`,{
         method: 'post',
-        header: API_HEADERS,
+        headers: API_HEADERS,
         body: JSON.stringify(card)
       })
       .then((response)=>{
@@ -252,22 +252,42 @@ class KanbanBoardContainer extends Component {
       })
     }
     render(){
-        return <Route path='/' render={(props) => (
-          <KanbanBoard cards={ this.state.cards }
-                              taskCallbacks={{
-                                  add: this.addTask.bind(this),
-                                  delete: this.deleteTask.bind(this),
-                                  toggle: this.toggleTask.bind(this)
-                              }}
-                              cardCallbacks={{
-                                  addCard: this.addCard.bind(this),
-                                  updateCard: this.updateCard.bind(this),
-                                  updateStatus: this.updateCardStatus.bind(this),
-                                  updatePosition: this.updateCardPosition.bind(this),
-                                  persistCardDrag: this.persistCardDrag.bind(this)
-                              }}
-                              history={this.props.history} />
-        )}/>
+    const kanbanBoard = () => (
+      <KanbanBoard
+        cards={ this.state.cards }
+        taskCallbacks={{
+        add: this.addTask.bind(this),
+        delete: this.deleteTask.bind(this),
+        toggle: this.toggleTask.bind(this)
+      }}
+        cardCallbacks={{
+        addCard: this.addCard.bind(this),
+        updateCard: this.updateCard.bind(this),
+        updateStatus: this.updateCardStatus.bind(this),
+        updatePosition: this.updateCardPosition.bind(this),
+        persistCardDrag: this.persistCardDrag.bind(this)
+      }}
+      history={this.props.history} />
+    )
+      /*
+      let kanbanBoard = this.props.children && React.cloneElement(this.props.children,{
+        cards: this.state.cards,
+        taskCallbacks:{
+          add: this.addTask.bind(this),
+          delete: this.deleteTask.bind(this),
+          toggle: this.toggleTask.bind(this)
+        },
+        cardCallbacks:{
+         addCard: this.addCard.bind(this),
+         updateCard: this.updateCard.bind(this),
+         updateStatus: this.updateCardStatus.bind(this),
+         updatePosition: this.updateCardPosition.bind(this),
+         persistCardDrag: this.persistCardDrag.bind(this)
+        }
+      });
+      return kanbanBoard;
+      */
+        return <Route path='/' render={kanbanBoard}/>
 
     }
 }
